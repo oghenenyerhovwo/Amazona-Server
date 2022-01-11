@@ -1,14 +1,13 @@
 import express from "express"
 import expressAsyncHandler from "express-async-handler"
-import multer from "multer"
+
 
 //  importing objects and functions
 import data from "../data.js"
 import Product from "../models/productModel.js";
 import { isAuth, isAdmin, isAdminOrSeller } from "../utils.js";
-import obj from '../connections/storageConnection.js'
-const {cloudinary_v2, storage} = obj
-const upload = multer({ storage });
+import parser from '../connections/storageConnection.js'
+
 
 const router = express.Router()
 
@@ -48,12 +47,12 @@ router.get("/:id",
 router.post("/", 
     isAuth,
     isAdminOrSeller,
-    upload.array('image'),
+    parser.single('image'),
     expressAsyncHandler(
         async (req, res) => {
             const newProduct= {
                 ...req.body,
-                image: req.files.map(f => ({ url: f.path, filename: f.filename })),
+                image: req.file.path,
             }
             Product
                 .create(newProduct)
