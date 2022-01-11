@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
     cloudinary,
     params: {
         folder: 'Amazona',
-        allowedFormats: ['jpeg', 'png', 'jpg'],
+        format: async () => 'jpg',
         public_id: (req, file) => file.filename,
     }
 });
