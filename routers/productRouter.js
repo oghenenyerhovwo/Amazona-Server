@@ -45,9 +45,9 @@ router.get("/:id",
 
 // create product route
 router.post("/", 
+    parser.single('image'),
     isAuth,
     isAdminOrSeller,
-    parser.single('image'),
     expressAsyncHandler(
         async (req, res) => {
             const newProduct= {
