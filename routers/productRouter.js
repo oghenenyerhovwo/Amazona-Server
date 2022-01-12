@@ -13,23 +13,14 @@ import { isAuth, isAdmin, isAdminOrSeller } from "../utils.js";
 const router = express.Router()
 
 
-router.get("/seed", 
-    expressAsyncHandler(
-        async (req, res) => {
-            await Product.deleteMany({})
-            const createdProduct = await Product.insertMany(data.products)
-            res.send({createdProduct})
-        }
-    )
-);
-
 router.get("/", 
     expressAsyncHandler(
         async (req, res) => {
             const seller = req.query.seller || ""
             const sellerFilter = seller ? {seller} : {}
-            const products = await Product.find({...sellerFilter})
-            res.json(products)
+            Product.find({...sellerFilter})
+            .then(products => res.json(products)) 
+            .catch(err =>res.status(404).send({message: err.message}) )
         }
     )
 );
@@ -57,7 +48,7 @@ router.post("/",
            .create(newProduct)
            .then(createdProduct => res.send(createdProduct))
                 
-                .catch(err =>res.status(404).send({message: err.message}) )
+            .catch(err =>res.status(404).send({message: err.message}) )
     })
 );
 
@@ -73,6 +64,7 @@ router.put("/:id",
                 Product
                     .findByIdAndUpdate(productId, req.body, {new:true})
                     .then(updateProduct => res.send(updateProduct))
+                    .catch(err =>res.status(404).send({message: err.message}) )
             } else {
                 res.status(404).send({message: "Product not found"})
             }
@@ -92,6 +84,7 @@ router.delete("/:id",
                 Product
                     .findByIdAndRemove(productId)
                     .then(() => res.send(productId))
+                    .catch(err =>res.status(404).send({message: err.message}) )
             } else {
                 res.status(404).send({message: "Product not found"})
             }

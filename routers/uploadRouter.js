@@ -32,7 +32,7 @@ router.post("/",
                         resource_type: "image",
                     },)
                 .then(data => {res.send(data.secure_url)})
-                
+                .catch(err =>res.status(404).send({message: err.message}) )
             } catch (error) {
                 console.log(error)
             }

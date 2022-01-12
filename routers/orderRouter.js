@@ -14,6 +14,7 @@ router.get("/mine",
             Order
                 .find({user: req.user._id})
                 .then(orders => res.send(orders))
+                .catch(err =>res.status(404).send({message: err.message}) )
         }
     )
 );
@@ -28,6 +29,7 @@ router.get("/",
             Order
                 .find({...sellerFilter}).populate("user", "name")
                 .then(orders => res.send(orders))
+                .catch(err =>res.status(404).send({message: err.message}) )
         }
     )
 );
@@ -49,6 +51,7 @@ router.post("/",
                         message: "New Order created",
                         order: {seller: req.body.orderItems[0], createdOrder}
                     }))
+                    .catch(err =>res.status(404).send({message: err.message}) )
             }
         }
     )
@@ -77,6 +80,7 @@ router.delete("/:id",
                 Order
                     .findByIdAndRemove(orderId)
                     .then(() => res.send(orderId))
+                    .catch(err =>res.status(404).send({message: err.message}) )
             } else {
                 res.status(404).send({message: "Order Not found"})
             }

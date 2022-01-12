@@ -9,16 +9,6 @@ import { generateToken, isAuth, isAdmin } from "../utils.js";
 
 const router = express.Router()
 
-router.get("/seed", 
-    expressAsyncHandler(
-        async (req, res) => {
-            // await User.deleteMany({})
-            const createdUser = await User.insertMany(data.users)
-            res.send({createdUser})
-        }
-    )
-);
-
 router.get("/", 
     isAuth,
     isAdmin,
@@ -27,6 +17,7 @@ router.get("/",
             User
                 .find()
                 .then(users => res.send(users))
+                .catch(err =>res.status(404).send({message: err.message}) )
         }
     )
 );
@@ -36,15 +27,20 @@ router.put("/:id",
     isAdmin,
     expressAsyncHandler(
         async (req, res) => {
-            const editedUser={}
-            const userId = req.params.id
-            const user = await User.findById(userId)
-            if(user){
-                editedUser.name = req.body.name || user.name
-                editedUser.email = req.body.email || user.email
-                User
-                    .findByIdAndUpdate(userId, req.body, {new:true})
-                    .then(updateUser => res.send(updateUser))
+            try {
+                const editedUser={}
+                const userId = req.params.id
+                const user = await User.findById(userId)
+                if(user){
+                    editedUser.name = req.body.name || user.name
+                    editedUser.email = req.body.email || user.email
+                    User
+                        .findByIdAndUpdate(userId, req.body, {new:true})
+                        .then(updateUser => res.send(updateUser))
+                        .catch(err =>res.status(404).send({message: err.message}) )
+                }
+            } catch (error) {
+                res.status(404).send({message: error.message}) 
             }
         }
     )
@@ -55,15 +51,21 @@ router.delete("/:id",
     isAdmin,
     expressAsyncHandler(
         async (req, res) => {
-            const userId = req.params.id
-            const foundUser = await User.findById(userId)
-            if(foundUser){
-                if(foundUser.email =="admin@example.com" || foundUser._id == req.user._id ){
-                    return res.status(404).send({message: "Cannot delete admin or a logged in account"})
-                } 
-                User
-                    .findByIdAndRemove(userId)
-                    .then(() => res.send(userId))
+            try {
+                const userId = req.params.id
+                const foundUser = await User.findById(userId)
+                if(foundUser){
+                    if(foundUser.email =="admin@example.com" || foundUser._id == req.user._id ){
+                        return res.status(404).send({message: "Cannot delete admin or a logged in account"})
+                    } 
+                    User
+                        .findByIdAndRemove(userId)
+                        .then(() => res.send(userId))
+                        .catch(err =>res.status(404).send({message: err.message}) )
+                }
+
+            } catch (error) {
+                res.status(404).send({message: error.message})
             }
             
         }
