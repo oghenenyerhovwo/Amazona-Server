@@ -10,7 +10,7 @@ const router = express.Router()
 
 
 const {cloud_name,api_key ,api_secret} = cloud_keys()
-
+console.log( {cloud_name,api_key ,api_secret})
 cloudinary.config({
     cloud_name,
     api_key,
