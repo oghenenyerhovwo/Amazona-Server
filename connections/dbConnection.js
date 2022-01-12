@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 function databaseConnection(){
     //Set up default mongoose connection
+    console.log(process.env.MONGODB_URL)
     const mongoDB = process.env.MONGODB_URL || 'mongodb://127.0.0.1/amazona';
     mongoose.connect(mongoDB, { 
         useNewUrlParser: true,
