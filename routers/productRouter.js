@@ -38,7 +38,6 @@ router.get("/:id",
             const product = await Product.findById(req.params.id)
             if(product){res.json(product)}
             else{res.status(404).send({message: "Product not found"})}
-
         }
     )
 );
@@ -50,6 +49,8 @@ router.post("/",
     isAdminOrSeller,
     expressAsyncHandler(
         async (req, res) => {
+            console.log(req.body)
+            
             const newProduct= {
                 ...req.body,
                 image: req.file.path,
@@ -57,8 +58,7 @@ router.post("/",
             Product
                 .create(newProduct)
                 .then(createdProduct => res.send(createdProduct))
-
-        }
+            }
     )
 );
 
