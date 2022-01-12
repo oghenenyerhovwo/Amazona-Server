@@ -1,13 +1,13 @@
 import cloudinary from 'cloudinary';
 import express from "express"
-
+import dotenv from "dotenv"
 
 //  importing objects and functions
 import {upload, cloud_keys} from '../connections/storageConnection.js'
 
-
+dotenv.config()
 const router = express.Router()
-
+console.log(process.env.MONGODB_URL)
 
 const {cloud_name,api_key ,api_secret} = cloud_keys()
 console.log( {cloud_name,api_key ,api_secret})
