@@ -7,9 +7,9 @@ import {upload, cloud_keys} from '../connections/storageConnection.js'
 
 dotenv.config()
 const router = express.Router()
-console.log(process.env.MONGODB_URL)
+console.log(process.env.cloud_name)
 
-const {cloud_name,api_key ,api_secret} = cloud_keys()
+const {cloud_name,api_key ,api_secret} = process.env
 console.log( {cloud_name,api_key ,api_secret})
 cloudinary.config({
     cloud_name,
