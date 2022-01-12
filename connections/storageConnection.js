@@ -1,22 +1,15 @@
-import {v2 as cloudinary} from 'cloudinary';
-import { CloudinaryStorage } from'multer-storage-cloudinary';
-import multer from "multer"
+import multer from 'multer'
+import dotenv from "dotenv"
+dotenv.config()
 
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_KEY,
-    api_secret: process.env.CLOUDINARY_SECRET
-});
+const storage = multer.diskStorage({})
 
-const storage = new CloudinaryStorage({
-    cloudinary,
-    params: {
-        folder: 'Amazona',
-        format: async () => 'jpg',
-        public_id: (req, file) => file.filename,
+export const upload= multer({storage})
+
+export function  cloud_keys (){
+    return {
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_KEY,
+        api_secret: process.env.CLOUDINARY_SECRET
     }
-});
-
- const parser = multer({storage, storage })
-
-export default parser
+}

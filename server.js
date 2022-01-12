@@ -10,6 +10,7 @@ import databaseConnection from "./connections/dbConnection.js";
 import userRouter from "./routers/userRouter.js";
 import productRouter from "./routers/productRouter.js";
 import orderRouter from "./routers/orderRouter.js";
+import uploadRouter from "./routers/uploadRouter.js";
 
 
 // Initializing imported functions
@@ -22,10 +23,11 @@ app.use(cors())
 app.use(express.json())
 
 
-// router implementations
+// router implementations 
 app.use("/api/users", userRouter)
 app.use("/api/products", productRouter)
 app.use("/api/orders", orderRouter)
+app.use("/api/uploads", uploadRouter)
 app.get("/api/config/payPal", (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || "sb")
 }); 

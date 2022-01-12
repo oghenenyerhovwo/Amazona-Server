@@ -2,14 +2,16 @@ import express from "express"
 import expressAsyncHandler from "express-async-handler"
 
 
+
 //  importing objects and functions
 import data from "../data.js"
 import Product from "../models/productModel.js";
 import { isAuth, isAdmin, isAdminOrSeller } from "../utils.js";
-import parser from '../connections/storageConnection.js'
+
 
 
 const router = express.Router()
+
 
 router.get("/seed", 
     expressAsyncHandler(
@@ -44,22 +46,17 @@ router.get("/:id",
 
 // create product route
 router.post("/", 
-    parser.single('image'),
     isAuth,
     isAdminOrSeller,
-    expressAsyncHandler(
-        async (req, res) => {
-            console.log(req.body)
-            
-            const newProduct= {
-                ...req.body,
-                image: req.file.path,
-            }
-            Product
-                .create(newProduct)
-                .then(createdProduct => res.send(createdProduct))
-            }
-    )
+    async (req, res) => {
+        const newProduct= {
+            ...req.body,
+           seller: req.user._id,
+       }
+       Product
+           .create(newProduct)
+           .then(createdProduct => res.send(createdProduct))
+    }
 );
 
 // update product route

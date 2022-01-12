@@ -47,7 +47,7 @@ router.post("/",
                     .create(newOrder)
                     .then(createdOrder => res.send({
                         message: "New Order created",
-                        order: {seller: req.body.orderItems[0], ...createdOrder}
+                        order: {seller: req.body.orderItems[0], createdOrder}
                     }))
             }
         }
