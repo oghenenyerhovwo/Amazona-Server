@@ -57,7 +57,7 @@ router.post("/",
            .create(newProduct)
            .then(createdProduct => res.send(createdProduct))
                 
-                .catch(err =>res.status(404).send({message: err}) )
+                .catch(err =>res.status(404).send({message: err.message}) )
     })
 );
 
