@@ -48,7 +48,7 @@ router.get("/:id",
 router.post("/", 
     isAuth,
     isAdminOrSeller,
-    expressAsyncHandler(async (req, res) => {
+    expressAsyncHandler((req, res) => {
         const newProduct= {
             ...req.body,
            seller: req.user._id,
@@ -56,6 +56,8 @@ router.post("/",
        Product
            .create(newProduct)
            .then(createdProduct => res.send(createdProduct))
+                
+                .catch(err =>res.status(404).send({message: err}) )
     })
 );
 
