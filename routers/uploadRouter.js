@@ -1,6 +1,7 @@
 import cloudinary from 'cloudinary';
 import express from "express"
 import dotenv from "dotenv"
+import expressAsyncHandler from "express-async-handler"
 
 //  importing objects and functions
 import {upload, } from '../connections/storageConnection.js'
@@ -19,7 +20,7 @@ cloudinary.config({
 // create product route
 router.post("/", 
     upload.single('image'),
-    async (req, res) => {
+    expressAsyncHandler(async (req, res) => {
         try {
             if (!req.file){
                 return res.status(400).send({message: "Select image"})
@@ -38,7 +39,7 @@ router.post("/",
         } catch (error) {
             console.log(error)
         }    
-    }
+    })
 );
 
 const uploadRouter= router

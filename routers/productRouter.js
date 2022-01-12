@@ -48,7 +48,7 @@ router.get("/:id",
 router.post("/", 
     isAuth,
     isAdminOrSeller,
-    async (req, res) => {
+    expressAsyncHandler(async (req, res) => {
         const newProduct= {
             ...req.body,
            seller: req.user._id,
@@ -56,7 +56,7 @@ router.post("/",
        Product
            .create(newProduct)
            .then(createdProduct => res.send(createdProduct))
-    }
+    })
 );
 
 // update product route
