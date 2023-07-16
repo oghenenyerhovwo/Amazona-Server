@@ -24,10 +24,11 @@ router.get("/",
 
 router.put("/:id", 
     isAuth,
+    isAdmin,
     expressAsyncHandler(
         async (req, res) => {
             try {
-                const editedUser={isSeller: true, isAdmin: true}
+                const editedUser={}
                 const userId = req.params.id
                 const user = await User.findById(userId)
                 if(user){
