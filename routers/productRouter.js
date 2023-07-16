@@ -38,7 +38,7 @@ router.get("/:id",
 // create product route
 router.post("/", 
     isAuth,
-    isAdminOrSeller,
+    isSeller,
     expressAsyncHandler((req, res) => {
         const newProduct= {
             ...req.body,
