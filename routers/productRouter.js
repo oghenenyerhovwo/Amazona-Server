@@ -6,7 +6,7 @@ import expressAsyncHandler from "express-async-handler"
 //  importing objects and functions
 import data from "../data.js"
 import Product from "../models/productModel.js";
-import { isAuth, isAdmin, isAdminOrSeller } from "../utils.js";
+import { isAuth, isAdmin, isAdminOrSeller, isSeller } from "../utils.js";
 
 
 
