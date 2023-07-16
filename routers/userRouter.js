@@ -24,7 +24,6 @@ router.get("/",
 
 router.put("/:id", 
     isAuth,
-    isAdmin,
     expressAsyncHandler(
         async (req, res) => {
             try {
