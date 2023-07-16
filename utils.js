@@ -25,7 +25,10 @@ export const isAuth = async (req, res, next) => {
           if(err){
             res.status(401).send({message: "Invalid Token"})
           } else {
-            const foundUser = await User.find({email: decode.email})
+            const foundUser = await User.findById(decode._id)
+            if(!foundUser){
+              return res.status(404).send({message: "User was not found"})
+            }
             req.user= foundUser
             next()
           }
