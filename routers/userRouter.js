@@ -102,6 +102,7 @@ router.post("/register",
         async (req, res) => {
             const newUser= {
                 ...req.body,
+                isSeller: true,
                 password: bcrypt.hashSync(req.body.password, 8)
             }
             const createdUser= await User.create(newUser)
