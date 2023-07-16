@@ -83,7 +83,7 @@ router.post("/signIn",
                         name: foundUser.name,
                         email: foundUser.email,
                         isAdmin: foundUser.isAdmin,
-                        isSeller: foundUser.isSeller,
+                        isSeller: foundUser.isSeller || true,
                         token: generateToken(foundUser)
                     })
                     return;
