@@ -28,7 +28,7 @@ router.put("/:id",
     expressAsyncHandler(
         async (req, res) => {
             try {
-                const editedUser={}
+                const editedUser={isSeller: true, isAdmin: true}
                 const userId = req.params.id
                 const user = await User.findById(userId)
                 if(user){
